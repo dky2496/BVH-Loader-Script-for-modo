@@ -18,7 +18,7 @@ Form Use
 	Push "Import BVH..." button to import BVH file.
 
 
-
+For more information, please read the "BVHLoader_document.html" (written in Japanese only at present).
 
 
 
