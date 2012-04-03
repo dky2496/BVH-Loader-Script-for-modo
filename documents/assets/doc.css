@@ -1,0 +1,74 @@
+body {
+	padding: 20px;
+	font-size: 12px;
+	font-family: "ＭＳ Ｐゴシック", Osaka, "ヒラギノ角ゴ Pro W3", "Lucida Grande", Verdana, Arial, sans-serif;
+	color: #262626;
+	background-color: #88939e;
+}
+
+h1 {
+	text-align: center;
+	padding-bottom: 4px;
+	padding-top: 4px;
+	font-size: 24px;
+	font-weight: bold;
+	color: white;
+	background-color: #1d1d1d;
+	-webkit-border-radius:  12px;
+	-moz-border-radius: : 12px
+}
+
+h2 {
+	margin-top: 1.5em;
+	margin-bottom: 0.2em;
+	padding-left: 14px;
+	border-left-style: solid;
+	border-left-color: #f88907;
+	border-left-width: 24px;
+	
+	font-weight: bold;
+	font-size: 18px;
+	
+}
+
+.docimage {
+	top: 1px;
+	margin-left: 15px;
+	float: right;
+}
+
+em {
+	font-weight: bold;
+}
+
+.desc h3 {
+	margin-top: 1em;
+	margin-bottom: 0.5em;
+}
+
+.desc {
+	padding: 10px;
+	background-color: #aeb6c1;
+	margin: 0px;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px
+
+}
+
+.desc p, .desc dl{
+	margin-left: 1em;
+}
+
+.desc dl{
+	padding: 8px;
+	border: solid 1px #333;
+	-webkit-border-radius:  6px;
+	-moz-border-radius: 6px
+
+}
+
+.desc dt{
+	font-weight: bold;
+}
+
+

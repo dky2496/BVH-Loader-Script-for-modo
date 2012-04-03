@@ -1,0 +1,121 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>BVH loader script for modo601</title>
+<link rel="stylesheet" href="assets/doc.css" type="text/css" />
+</head>
+<body>
+<h1>BVH file loader script for modo 601</h1>
+
+<h2>動作の説明</h2>
+<div class="desc">
+<p>BVH loader script for modo601 は、BVHファイルを読み込むための<a href="http://www.luxology.com/modo/">Luxology modo</a>用スクリプトです。<br>
+BVHファイルとは、3Dのモーションデータを記録したファイルです。<br>
+この BVH Loaderスクリプトでは、BVHファイルを読み込んで、階層化されたスケルトンジョイントを作成し、モーションデータを当てはめていきます。</p>
+<p>現在の所、modoで既に作成したボーンにモーションを当てはめる機能はありません。</p>
+</div>
+
+<h2>インストール</h2>
+<div class="desc">
+<li>
+bvhloader.py及び、bvh.pyはユーザーのスクリプトフォルダへ
+</li>
+<li>bvhloader.cfgは、ユーザーの設定フォルダへ入れるのがお勧めです。</li>
+
+<p>ユーザースクリプトフォルダは、modoのSystemメニューより、「Open User Scripts Folder」<br>
+ユーザー設定フォルダは、同じく「Open User Config Folder」を使うと開くことができます。<br>
+Macの場合、「 [ユーザーのホーム]/Library/Application Support/Luxology/ 」 （Mac OSX 10.7以降では、Libraryフォルダは不可視になっています。)<br>
+Windowsの場合、「 C:¥Documents and Settings¥[ユーザー]¥Application Data¥Luxology¥Scripts 」
+</p>
+</div>
+
+<h2>設定パレット</h2>
+<div class="desc">
+<div class="docimage"><img src="assets/modo_bvhloader_palette01.png" alt="modo_bvhloader_palette01" width="300" /> <img src="assets/modo_bvhloader_palette02.png" alt="modo_bvhloader_palette02" width="300" /></div>
+<ol>
+<li>modoのLayoutメニューより、<em>Pallete</em>→<em>New Pallete</em>で新規パレットを出します。<br>
+	<em>New Window</em>でウィンドウでも構いません。</li>
+<li>右側の三角形をクリックし、「Form View」を選びます。</li>
+<li>パレット上部のForm View文字部分を右クリックして、「BVH Loader」を選びます。</li>
+</ol>
+<br style="clear:right">
+</div>
+
+
+
+
+<h2>各設定の説明</h2>
+<div class="desc">
+<div class="docimage"><img src="assets/modo_bvhloader_ss02.png" alt="modo_bvhloader_ss02" width="309" height="235" /></div>
+<h3>Crate Parent Locator</h3>
+<p>BVHでは、ルートノードを元に、そこからジョイントが階層的に作られて行きますが、<br>
+	このチェックをONにすると、そのルートノードの親ロケータを作成します。ロケータ名はファイル名を元にしています。<br>
+	複数のBVHファイルを読み込む時や、modo上でアニメーションにさらに動きをつける場合等に便利です。</p>
+
+<h3>Scale Factor</h3>
+<p>	BVHファイルから作られるジョイントの大きさを調整します。	<br>
+modoは、座標の値が1.0を1メートルとしているそうで、BVHファイルのデータをそのままのサイズで読み込むと数十メートルの人間ができたりしますので、拡大縮小率を変更します。<br>
+100%でBVHファイルからそのままのサイズで読み込みます。
+</p>
+
+<h3>Frame Mode</h3>
+<p>アニメーション読み込み時の時間、フレームレートに関する設定です。</p>
+<dl>
+<dt>Adapt To BVH</dt>
+<dd>modoのシーンのフレームレートを、BVHから読み込んだフレームレートに合わせます。モーションはmodoのフレーム単位で読み込みます。<br>
+モーションの再生スピードはBVHファイルの通りに合います。
+</dd>
+
+
+<dt>Use BVH Time</dt>
+<dd>modoのシーンのフレームレートは変更しません。BVHから読み込んだ時間に合わせてモーションを配置します。<br>
+このため、modoのシーンとBVHのフレームレートが合致していない場合は、フレーム以外の所にキーポイントが打ち込まれることがあります。<br>
+モーションの再生スピードはBVHファイルの通りに合います。</dd>
+
+<dt>Use Scene Frame Rate</dt>
+<dd>modoのシーンのフレームレートにBVHのフレームを合わせます。モーションはmodoのフレーム単位で読み込みます。<br>
+このため、modoのシーンとBVHのフレームレートが合致していない場合、モーションの再生スピードが変わってしまいます。<br>
+modoのフレーム単位に無理矢理合わせるというだけのモードですのであまり使わないかもしれません。</dd>
+</dl>
+
+<p>BVHファイルには、総フレーム数と1フレームの進む時間が記載されていますのでここから計算しています。<br>
+例えば総フレーム数=60、1フレームの時間=0.03333（秒）だと、フレームレート（FPS）=30で、2秒のモーションになります。</p>
+
+
+
+<h3>Rotation Order</h3>
+<p>各ジョイントの回転順です。基本的には「flipBVH」にしておいてください。</p>
+
+<h3>Root Pin Mode</h3>
+<p>ルートノードの移動（XとZ方向のみ）を固定します。<br>
+例えば、歩行モーションなどでもその場で歩いている動きになります。<br>
+ゲーム用のデータを作る際にゲーム作成ソフト側でキャラクターの動きを作る場合などに使用します。</p>
+
+<h3>Read Joints Only</h3>
+<p>BVHファイルから、モーションデータを読み込まずに、ジョイントデータのみを読み込みます。</p>
+
+<h3>Apply Zero Transform</h3>
+<p>ジョイントデータを読み込んだ時点で、全てのジョイントのトランスフォームを0にします。<br>
+これにより、modo上でポーズを付けた場合に、PropertyのTransformからジョイントをリセットして、読み込んだ時点のポーズに戻すことができます。<br>
+モーションの動きには影響しません。</p>
+
+<h3>Suspend Undo</h3>
+<p>フレーム数の多いデータを読み込む場合、modoがundo用のメモリを使うため、modoのメモリ使用率がどんどん上がって行ってしまいます。<br>
+これを防ぐためにundo作成を一時的に（スクリプト使用中）停止します。<br>
+ONにすることで、BVHファイルの読み込みも早くなりますが、それまでのundoデータは消去されます。<br>
+コンピューターの性能や搭載メモリ量にもよりますが、数百フレーム以上のデータを読み込むときはONにした方が良いかと思います。
+</p>
+
+<h3>Import BVH...</h3>
+<p>BVHを読み込むボタンです。<br>
+読み込み中に「Abort」ボタンを押して中止した場合、読み込んだ時点までモーションは残ります。</p>
+</div>
+
+<h2>リリースノート</h2>
+<div class="desc">
+<p>ライセンスMPL1.1/GPL2.0/LGPL2.1 のいずれかとします。<br>
+このスクリプトは、BHVを読み込むために、<a href="http://cgkit.sourceforge.net/">the Python Computer Graphics Kit</a>のbhv.pyモジュールを同梱し、利用しています。このbhv.pyモジュールはMPL 1.1/GPL 2.0/LGPL 2.1ライセンスとなっていますのでそれに準じた形としています。</p>
+<p>2012-04-03 ver0.9</p>
+</div>
+</body>
+</html>
