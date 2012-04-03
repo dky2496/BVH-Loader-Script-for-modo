@@ -15,7 +15,7 @@ Create Setting Form
 	Right Click the header bar and select "BVH Loader".
 
 Form Use
-	Push "Import BVH..." button to import bah file.
+	Push "Import BVH..." button to import BVH file.
 
 
 
