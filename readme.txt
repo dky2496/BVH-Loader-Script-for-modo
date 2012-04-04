@@ -21,5 +21,7 @@ Form Use
 For more information, please read the "BVHLoader_document.html" (written in Japanese only at present).
 
 
+version 0.9
+04/04/2012
 
-author: dky2496 ( http://twitter.com/#!/dky2496 )
+author: dky2496
