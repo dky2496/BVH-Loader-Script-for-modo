@@ -20,9 +20,14 @@ Form Use
 
 For more information, please read the "BVHLoader_document.html" (written in Japanese only at present).
 
+
+version history
+
+version 0.92  04/06/2012
+bug fix. fix animation total time if frame mode is not adapt to bvh mode.
+
 version 0.91  04/06/2012
 bug fix. get fps from scene.
-
 
 version 0.9
 04/04/2012

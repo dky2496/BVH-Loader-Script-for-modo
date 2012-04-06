@@ -13,7 +13,7 @@
 # for the specific language governing rights and limitations under the
 # License.
 
-# version 0.91 (2012/04/06)
+# version 0.92 (2012/04/06)
 # author: dky2496 ( http://twitter.com/#!/dky2496 )
 
 
@@ -77,12 +77,16 @@ class BVHReader(bvh.BVHReader):
 
 		self.fps = lx.eval("time.fpsCustom ?")
 		
-		lx.eval("time.range scene out:[%s f] [0] [0]" % self.frames)
-		lx.eval("time.range current out:[%s f] [0] [0]" % self.frames)
+		if self.frameMode == "AdaptToBVH" or self.frameMode == "UseSceneFrameRate":
+			lx.eval("time.range scene out:[%s f] [0] [0]" % self.frames)
+			lx.eval("time.range current out:[%s f] [0] [0]" % self.frames)
+		else:
+			lx.eval("time.range scene out:%s" % (self.dt * self.frames))
+			lx.eval("time.range current out:%s" % (self.dt * self.frames))
 		
 		lx.eval("anim.autoKey off")
-		
 		lx.out("Total Frames: %s, FPS: %s, Deltatime: %s" % (self.frames,self.fps, self.dt))
+		
 		monitor.init(frames)
 		
 	# ---------------------------------------------------
@@ -105,7 +109,10 @@ class BVHReader(bvh.BVHReader):
 
 		except: 
 			lx.out("User Aborted")
-			lx.eval("time.range current out:[%s f] [0] [0]" % self.currentframe)
+			if self.frameMode == "AdaptToBVH" or self.frameMode == "UseSceneFrameRate":
+				lx.eval("time.range current out:[%s f] [0] [0]" % self.currentframe)
+			else:
+				lx.eval("time.range current out:%s" % (self.dt * self.currentframe))
 			sys.exit()
 		
 	
