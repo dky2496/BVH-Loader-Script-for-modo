@@ -13,7 +13,7 @@
 # for the specific language governing rights and limitations under the
 # License.
 
-# version 1.0
+# version 0.91 (2012/04/06)
 # author: dky2496 ( http://twitter.com/#!/dky2496 )
 
 
@@ -36,6 +36,7 @@ class BVHReader(bvh.BVHReader):
 		self.readJointOnly = False 		# skip read motion
 		self.rotOrder = "flipBVH"
 		self.createParentLocator = True
+		self.fps = 30
 		
 		self.adaptFPS = False
 		self.frameMode = "AdaptToBVH"
@@ -71,7 +72,10 @@ class BVHReader(bvh.BVHReader):
 		self.currentframe = 0
 		
 		if self.adaptFPS == True or self.frameMode == "AdaptToBVH":
+			# calc from bvh file
 			self.calcFps()
+
+		self.fps = lx.eval("time.fpsCustom ?")
 		
 		lx.eval("time.range scene out:[%s f] [0] [0]" % self.frames)
 		lx.eval("time.range current out:[%s f] [0] [0]" % self.frames)
@@ -91,9 +95,8 @@ class BVHReader(bvh.BVHReader):
 			else:
 				lx.eval("select.time %s" % self.currentTime)
 
-			lx.out("Frame: %s, Time: %s" % (self.currentframe,self.currentTime))
-			
-			
+			#lx.out("Frame: %s, Time: %s" % (self.currentframe,self.currentTime))
+
 			self.applyMotion(self.root, values)
 			self.currentframe += 1
 			self.currentTime += self.dt
@@ -107,7 +110,7 @@ class BVHReader(bvh.BVHReader):
 		
 	
 	
-	# calucrate fps  ---------------------------------------------------
+	# calucrate fps ---------------------------------------------------
 	def calcFps(self):
 		#dt
 		self.fps = round(1/self.dt)
@@ -174,7 +177,7 @@ class BVHReader(bvh.BVHReader):
 		
 		return values
 		
-	#create Skelton　------------------------------------------------------------------
+	#create Skelton  -----------------------------------------------------------------
 	def createSkeleton(self, node, parentID=None):
 		# create Locator Item
 		lx.eval("item.create locator")

@@ -20,6 +20,9 @@ Form Use
 
 For more information, please read the "BVHLoader_document.html" (written in Japanese only at present).
 
+version 0.91  04/06/2012
+bug fix. get fps from scene.
+
 
 version 0.9
 04/04/2012
